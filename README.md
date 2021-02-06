@@ -1,22 +1,32 @@
 # О проекте
 Comaru - это комбинированный алгоритм по нахождению самых эффективных правил, найденных с помощью алгоритмов ассоциативных правил.
 
+---
+
 ## Технологии
 - Python
 - Jupiter Notebook
-- Streamlit https://docs.streamlit.io/en/stable/api.html
+- [Streamlit](https://docs.streamlit.io/en/stable/api.html "О Streamlit") 
+
+---
 
 ## Данные
-Basket.csv содержит данные о произведенных в магазине транзакциях.
+**Basket.csv** содержит данные о произведенных в магазине транзакциях.
 Он содержит 20 столбцов и 7501 объект(транзакцию). 
+
+---
 
 ## Алгоритмы ассоциативных правил
 - Apriori
 - FPGrowth
 - ECLAT
 
+---
+
 ## Запуск
 `streamlit run comaru.py`
+
+---
 
 ## Описание работы
 
