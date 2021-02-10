@@ -24,7 +24,11 @@ Comaru - это комбинированный алгоритм по нахож�
 ---
 
 ## Запуск
-`streamlit run comaru.py`
+### Streamlit  
+`streamlit run comaru.py`  
+
+### Google colab  
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/DE-Karpov/comaru/blob/develop/comaru.ipynb#scrollTo=yFOju6zmrc3k&uniqifier=5)
 
 ---
 
