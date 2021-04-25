@@ -5,6 +5,8 @@ from mlxtend.frequent_patterns import association_rules
 import itertools
 import pandas as pd
 
+from algos import ECLAT
+
 
 def create_one_hot_vec(df):
     items = (df['0'].unique())
@@ -20,7 +22,6 @@ def create_one_hot_vec(df):
         for com in commons:
             labels[com] = 1
         encoded_vals.append(labels)
-    encoded_vals[0]
     ohe_df = pd.DataFrame(encoded_vals)
     return ohe_df
 
@@ -47,9 +48,10 @@ def get_fpmax_rules(df):
 
 
 def get_eclat_rules(df):
-    parameters = {"min_support": 0.1, "max_length": 3}
-    assoc_rules = df.get_eclat(params=parameters)
-    return assoc_rules
+    params = {"min_support": 0.1, "max_length": 3}
+    model = ECLAT.Eclat(min_support=params["min_support"], max_items=params["max_length"], min_items=1)
+    model.fit(df)
+    return model.transform()
 
 
 def get_common_rules(left_rules, right_rules):

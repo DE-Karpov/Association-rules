@@ -1,4 +1,5 @@
-from comaru import get_common_rules, get_all_rules, get_apriori_rules, get_fpgrowth_rules, get_fpmax_rules, get_eclat_rules
+from service.get_rules import get_common_rules, get_all_rules, get_apriori_rules, get_fpgrowth_rules, \
+    get_fpmax_rules, get_eclat_rules
 
 
 def get_all_common_rules(data):
@@ -15,6 +16,7 @@ def get_all_assoc_rules(data):
     all_rules_max_eclat = get_all_rules(list_of_prepared_rules[2], list_of_prepared_rules[3])
     all_rules = get_all_rules(all_rules_app_growth, all_rules_max_eclat)
     return all_rules
+
 
 def transform(df):
     list_of_rules = []
