@@ -1,4 +1,4 @@
-from mlxtend.frequent_patterns import apriori as mapriori
+from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import fpgrowth
 from mlxtend.frequent_patterns import fpmax
 from mlxtend.frequent_patterns import association_rules
@@ -14,6 +14,7 @@ def create_one_hot_vec(df):
     encoded_vals = []
     for index, row in df.iterrows():
         rowset = set(row)
+        rowset = {element for element in rowset if pd.notna(element)}
         labels = {}
         uncommons = list(itemset - rowset)
         commons = list(itemset.intersection(rowset))
@@ -26,29 +27,29 @@ def create_one_hot_vec(df):
     return ohe_df
 
 
-def get_apriori_rules(df):
+def get_apriori_rules(df, support, confidence):
     ohe_df = create_one_hot_vec(df)
-    freq_items = mapriori(ohe_df, min_support=0.1, use_colnames=True)
-    assoc_rules = association_rules(freq_items, metric="confidence", min_threshold=0.1)
+    freq_items = apriori(ohe_df, min_support=support, use_colnames=True)
+    assoc_rules = association_rules(freq_items, metric="confidence", min_threshold=confidence)
     return assoc_rules
 
 
-def get_fpgrowth_rules(df):
+def get_fpgrowth_rules(df, support, confidence):
     ohe_df = create_one_hot_vec(df)
-    freq_items = fpgrowth(ohe_df, min_support=0.1, use_colnames=True, verbose=1)
-    assoc_rules = association_rules(freq_items, metric="confidence", min_threshold=0.1)
+    freq_items = fpgrowth(ohe_df, min_support=support, use_colnames=True, verbose=1)
+    assoc_rules = association_rules(freq_items, metric="confidence", min_threshold=confidence)
     return assoc_rules
 
 
-def get_fpmax_rules(df):
+def get_fpmax_rules(df, support, confidence):
     ohe_df = create_one_hot_vec(df)
-    freq_items = fpmax(ohe_df, min_support=0.1, use_colnames=True, verbose=1)
-    assoc_rules = association_rules(freq_items, metric="confidence", min_threshold=0.1, support_only=True)
+    freq_items = fpmax(ohe_df, min_support=support, use_colnames=True, max_len=5, verbose=1)
+    assoc_rules = association_rules(freq_items, metric="confidence", min_threshold=confidence, support_only=True)
     return assoc_rules
 
 
-def get_eclat_rules(df):
-    params = {"min_support": 0.1, "max_length": 3}
+def get_eclat_rules(df, support):
+    params = {"min_support": support, "max_length": 5}
     model = ECLAT.Eclat(min_support=params["min_support"], max_items=params["max_length"], min_items=1)
     model.fit(df)
     return model.transform()

@@ -10,6 +10,10 @@ def handle_args() -> argparse.Namespace:
         '-p', '--path', help='Set absolute path to your dataset', required=True)
     parser.add_argument('-z', '--zone', default='union',
                         help='Set zone param [union | intersection]. Default: union')
+    parser.add_argument('-s', '--support', default=0.1,
+                        help='Set minimum support param. Default: 0.1')
+    parser.add_argument('-c', '--confidence', default=0.1,
+                        help='Set minimum confidence param. Default: 0.1')
     args = parser.parse_args()
     return args
 
@@ -31,11 +35,12 @@ def save_to_file(result):
 
 def get_rules(dataset, args: argparse.Namespace) -> None:
     try:
-        result = get_all_common_rules(dataset) if args.zone == 'intersection' else get_all_assoc_rules(dataset)
+        result = get_all_common_rules(dataset, args) if args.zone == 'intersection' else get_all_assoc_rules(dataset, args)
+        print(result)
         save_to_file(result)
         print("Success!")
-    except Exception:  # прикол с расширением csv
-        print("Something went wrong!")
+    except Exception as e:  # прикол с расширением csv
+        raise Exception("Something went wrong!") from e
         pass
 
 

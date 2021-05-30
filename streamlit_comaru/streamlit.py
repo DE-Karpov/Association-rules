@@ -75,12 +75,12 @@ class AssocRules:
     def get_apriori(self, params):
         rules = list(
             apriori(self.transactions, min_support=params["min_support"][0], min_confidence=params["min_confidence"][0],
-                    min_lift=params["min_lift"][0], max_length=params["max_length"][0]))
+                    min_lift=params["min_lift"][0], max_length=5))
         list_of_rules = [list(record.items) for record in rules]
         return list_of_rules
 
     def get_eclat(self, params):
-        model = AssocRules.Eclat(min_support=params["min_support"][0], max_items=params["max_length"][0], min_items=1)
+        model = AssocRules.Eclat(min_support=params["min_support"][0], max_items=5, min_items=1)
         model.fit(self.dataset)
         return model.transform()
 
@@ -100,16 +100,12 @@ class AssocRules:
         return commonRules
 
     def user_input_features(self):
-        min_support = st.sidebar.slider("Minimal support", 0.005, 0.01, 0.05, 0.1)
-        min_confidence = st.sidebar.slider("Min confidence", 0.1, 0.2, 0.3, 0.4)
+        min_support = st.sidebar.slider("Minimal support", 0.01, 0.05, 0.1, 0.2)
+        min_confidence = st.sidebar.slider("Min confidence", 0.01, 0.05, 0.1, 0.2)
         min_lift = st.sidebar.slider("Lift", 0.5, 1.0, 1.5, 2.0)
-        min_length = st.sidebar.slider("Min length", 1, 2, 3, 4)
-        max_length = st.sidebar.slider("Max length", 2, 3, 4, 5)
         data = {"min_support": min_support,
                 "min_confidence": min_confidence,
-                "min_lift": min_lift,
-                "min_length": min_length,
-                "max_length": max_length}
+                "min_lift": min_lift}
         features = pd.DataFrame(data, index=[0])
         return features
 
