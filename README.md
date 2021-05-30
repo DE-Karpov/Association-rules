@@ -27,8 +27,20 @@ Comaru - это комбинированный алгоритм по нахож�
 ---
 
 ## Запуск
-### Module  
-`python3 main.py -p 'path_to_csv_file' -z 'intersection | union' -s min_support threshold -c min_confidence_threshold` 
+### Module
+Пример
+
+`python3 main.py -p '/Users/daniilkarpov/Desktop/Github/comaru/data/retail_dataset.csv' -z 'union' -s 0.25 -c 0.8`
+
+•	-p – путь(path) к файлу с расширение .csv
+
+•	-z – метрика полноты(zone)
+
+•	-s – параметр поддержки(min_support). Минимальный порог поддержки правил
+
+•	-c – параметр уверенности(confidence). Минимальный порог уверенности правил
+
+
 ### Streamlit  
 `streamlit run comaru.py`  
 
