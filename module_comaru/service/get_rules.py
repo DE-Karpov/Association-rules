@@ -2,7 +2,6 @@ from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import fpgrowth
 from mlxtend.frequent_patterns import fpmax
 from mlxtend.frequent_patterns import association_rules
-import itertools
 import pandas as pd
 
 from algos import ECLAT
@@ -68,21 +67,17 @@ def get_common_rules(left_rules, right_rules):
 
 
 def get_all_rules(left_rules, right_rules):
-    new_left_rules = []
-    new_right_rules = []
-    for leftSubList in left_rules:
-        new_left_rules.append(sorted(leftSubList))
-    left_rules = list(new_left_rules for new_left_rules, _ in itertools.groupby(new_left_rules))
+    raw_rules = [left_rules, right_rules]
+    return sort_and_distinct(raw_rules)
 
-    whole_rules = left_rules
 
-    for rightSubList in right_rules:
-        new_right_rules.append(sorted(rightSubList))
-    right_rules = list(new_right_rules for new_right_rules, _ in itertools.groupby(new_right_rules))
+def sort_and_distinct(rules):
+    sorted_rules = []
+    prepared_rules = []
+    for subList in rules:
+        sorted_rules.append(sorted(subList))
+    for subList in sorted_rules:
+        rules_set = set(tuple(x) for x in subList)
+        prepared_rules = [list(x) for x in rules_set]
 
-    for rightSubList in right_rules:
-        if rightSubList not in whole_rules:
-            whole_rules.append(rightSubList)
-
-    whole_rules = sorted(whole_rules)
-    return whole_rules
+    return prepared_rules

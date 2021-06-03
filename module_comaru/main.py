@@ -36,10 +36,9 @@ def save_to_file(result):
 def get_rules(dataset, args: argparse.Namespace) -> None:
     try:
         result = get_all_common_rules(dataset, args) if args.zone == 'intersection' else get_all_assoc_rules(dataset, args)
-        print(result)
         save_to_file(result)
         print("Success!")
-    except Exception as e:  # прикол с расширением csv
+    except Exception as e:
         raise Exception("Something went wrong!") from e
         pass
 
